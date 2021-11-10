@@ -21,8 +21,11 @@ public class Simulation {
     /** The number of players in the tournament */
     private static final int NUM_PLAYERS = 120;
 
+    /** The default number of rounds in the first stage */
+    private static final int DEFAULT_NUM_ROUNDS = 7;
+
     /** The number of rounds in the first stage */
-    private static final int NUM_ROUNDS = 7;
+    private int numRounds = DEFAULT_NUM_ROUNDS;
 
     /** The amount of players seated at a table */
     private static final int TABLE_SIZE = 8;
@@ -30,8 +33,11 @@ public class Simulation {
     /** The total number of tables */
     private int numTables = NUM_PLAYERS / TABLE_SIZE;
 
+    /** The default number of top scorers who qualify for the second stage */
+    private static final int DEFAULT_NUM_QUALIFIERS = 32;
+
     /** The amount of top scorers who qualify for the second stage */
-    private static final int NUM_QUALIFIERS = 32;
+    private int numQualifiers = DEFAULT_NUM_QUALIFIERS;
 
     /** Array of all of the players in the tournament */
     private Player[] players = new Player[NUM_PLAYERS];
@@ -59,13 +65,13 @@ public class Simulation {
      */
     public int run(){
         // Play each round of the first stage
-        for (int i = 0; i < NUM_ROUNDS; i++){
+        for (int i = 0; i < numRounds; i++){
             playRound();
         }
         // Order players by their total points earned throughout the first stage (lowest to highest)
         Arrays.sort(players, (p1, p2) -> Integer.compare(p1.getTotalPoints(), p2.getTotalPoints()));
 
-        int lowestQualifyingScore = players[NUM_PLAYERS - NUM_QUALIFIERS].getTotalPoints();
+        int lowestQualifyingScore = players[NUM_PLAYERS - numQualifiers].getTotalPoints();
 
         return lowestQualifyingScore;
     }
@@ -146,5 +152,25 @@ public class Simulation {
      */
     public void reset(){
         initializePlayers();
+    }
+
+    public static int getNumPlayers() {
+        return NUM_PLAYERS;
+    }
+
+    public static int getDefaultNumRounds() {
+        return DEFAULT_NUM_ROUNDS;
+    }
+
+    public static int getDefaultNumQualifiers() {
+        return DEFAULT_NUM_QUALIFIERS;
+    }
+
+    public void setNumRounds(int numRounds) {
+        this.numRounds = numRounds;
+    }
+
+    public void setNumQualifiers(int numQualifiers) {
+        this.numQualifiers = numQualifiers;
     }
 }
